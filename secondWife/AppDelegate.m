@@ -7,6 +7,15 @@
 //
 
 #import "AppDelegate.h"
+//model
+#import "YALTabBarItem.h"
+
+//controller
+#import "YALFoldingTabBarController.h"
+
+//helpers
+#import "YALAnimatingTabBarConstants.h"
+
 
 @interface AppDelegate ()
 
@@ -16,9 +25,67 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    self.itemNamesArray=[[NSMutableArray alloc]init];
+    self.itemRatesArray=[[NSMutableArray alloc]init];
     // Override point for customization after application launch.
+    self.enableTable = YES;
+    
+    
+
+//    [UITabBar.appearance setUnselectedItemTintColor:[UIColor lightGrayColor]];
+//    [UITabBar.appearance setTintColor:[UIColor whiteColor]];
+//    [UITabBar.appearance setItemSpacing:10];
+//    [UITabBarItem.appearance setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:12.0], NSFontAttributeName, nil] forState:UIControlStateNormal];
+    
+    
+    [self setupYALTabBarController];
+    
     return YES;
 }
+
+
+- (void)setupYALTabBarController {
+    YALFoldingTabBarController *tabBarController = (YALFoldingTabBarController *) self.window.rootViewController;
+    
+    //prepare leftBarItems
+    YALTabBarItem *item1 = [[YALTabBarItem alloc] initWithItemImage:[UIImage imageNamed:@"settings_icon"]
+                                                      leftItemImage:nil
+                                                     rightItemImage:nil];
+    
+    
+    YALTabBarItem *item2 = [[YALTabBarItem alloc] initWithItemImage:[UIImage imageNamed:@"chats_icon"]
+                                                      leftItemImage:[UIImage imageNamed:@"edit_icon"]
+                                                     rightItemImage:nil];
+    
+    tabBarController.leftBarItems = @[item1, item2];
+    
+    //prepare rightBarItems
+    YALTabBarItem *item3 = [[YALTabBarItem alloc] initWithItemImage:[UIImage imageNamed:@"nearby_icon"]
+                                                      leftItemImage:[UIImage imageNamed:@"search_icon"]
+                                                     rightItemImage:[UIImage imageNamed:@"new_chat_icon"]];
+    
+    
+    YALTabBarItem *item4 = [[YALTabBarItem alloc] initWithItemImage:[UIImage imageNamed:@"profile_icon"]
+                                                      leftItemImage:nil
+                                                     rightItemImage:nil];
+    
+    tabBarController.rightBarItems = @[item3, item4];
+    
+    tabBarController.centerButtonImage = [UIImage imageNamed:@"plus_icon"];
+    
+    tabBarController.selectedIndex = 0;
+    
+    //customize tabBarView
+    tabBarController.tabBarView.extraTabBarItemHeight = YALExtraTabBarItemsDefaultHeight;
+    tabBarController.tabBarView.offsetForExtraTabBarItems = YALForExtraTabBarItemsDefaultOffset;
+    tabBarController.tabBarView.backgroundColor = [UIColor clearColor];
+    tabBarController.tabBarView.tabBarColor = [UIColor colorWithRed:72.f/255.f green:211.f/255.f blue:178.f/255.f alpha:1.f];
+    tabBarController.tabBarViewHeight = 2*YALTabBarViewDefaultHeight;
+    tabBarController.tabBarView.tabBarViewEdgeInsets = YALTabBarViewHDefaultEdgeInsets;
+    tabBarController.tabBarView.tabBarItemsEdgeInsets = YALTabBarViewItemsDefaultEdgeInsets;
+}
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
